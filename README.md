@@ -1,8 +1,8 @@
 
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME:Maithreyan D</H3>
+<H3>ENTER YOUR REGISTER NO:212222220021</H3>
 <H3>EX. NO.4</H3>
-<H3>DATE:</H3>
+<H3>DATE:18-04-2024</H3>
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
 <H3>Aim:</H3>
 To implement a Multilayer Perceptron for Multi classification
@@ -116,9 +116,54 @@ Normalize our dataset.
 
 <H3>Program:</H3> 
 
+```
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+data=pd.read_csv("/content/IRIS (1).csv")
+data.head()
+
+name=["sepal_length","sepal_width","petal_length","petal_width"]
+x=data.iloc[:,0:4]
+y=data.select_dtypes(include=[object])
+x.head()
+y.head()
+
+from sklearn import preprocessing
+label_encoder=preprocessing.LabelEncoder()
+data['species']=label_encoder.fit_transform(data['species'])
+data['species'].unique()
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.20)
+from sklearn.preprocessing import StandardScaler
+scaler=StandardScaler()
+scaler.fit(x_train)
+x_train=scaler.transform(x_train)
+x_test=scaler.transform(x_test)
+
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.neural_network import MLPClassifier
+mlp=MLPClassifier(hidden_layer_sizes=(10,10,10),max_iter=1000)
+mlp.fit(x_train,y_train.values.ravel())
+predictions=mlp.predict(x_test)
+print(predictions)
+
+print(confusion_matrix(y_test,predictions))
+print(classification_report(y_test,predictions))
+```
 Insert your code here
 
 <H3>Output:</H3>
+
+![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/9833247a-976c-425f-a708-7e48d7052390)
+
+![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/3bdc4d66-92df-4484-817b-f9edb2b8a76d)
+
+![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/2a8682ef-67a9-4c7f-b8b1-b084a26b387f)
+
+![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/19c329ea-70cc-4c9f-bb55-2113625e510c)
+
 
 Show your results here
 
