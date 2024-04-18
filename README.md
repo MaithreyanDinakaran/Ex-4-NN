@@ -118,54 +118,62 @@ Normalize our dataset.
 
 ```
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-data=pd.read_csv("/content/IRIS (1).csv")
-data.head()
-
-name=["sepal_length","sepal_width","petal_length","petal_width"]
-x=data.iloc[:,0:4]
-y=data.select_dtypes(include=[object])
-x.head()
-y.head()
-
-from sklearn import preprocessing
-label_encoder=preprocessing.LabelEncoder()
-data['species']=label_encoder.fit_transform(data['species'])
-data['species'].unique()
-
 from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.20)
 from sklearn.preprocessing import StandardScaler
-scaler=StandardScaler()
-scaler.fit(x_train)
-x_train=scaler.transform(x_train)
-x_test=scaler.transform(x_test)
-
-from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.neural_network import MLPClassifier
-mlp=MLPClassifier(hidden_layer_sizes=(10,10,10),max_iter=1000)
-mlp.fit(x_train,y_train.values.ravel())
-predictions=mlp.predict(x_test)
-print(predictions)
-
-print(confusion_matrix(y_test,predictions))
-print(classification_report(y_test,predictions))
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+arr = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Species']
+df = pd.read_csv(url, names=arr)
+print(df.head())
+a = df.iloc[:, 0:4]
+b = df.select_dtypes(include=[object])
+b = df.iloc[:,4:5]
+training_a, testing_a, training_b, testing_b = train_test_split(a, b, test_size = 0.25)
+myscaler = StandardScaler()
+myscaler.fit(training_a)
+training_a = myscaler.transform(training_a)
+testing_a = myscaler.transform(testing_a)
+m1 = MLPClassifier(hidden_layer_sizes=(12, 13, 14), activation='relu', solver='adam', max_iter=2500)
+m1.fit(training_a, training_b.values.ravel())
+predicted_values = m1.predict(testing_a)
+print(confusion_matrix(testing_b,predicted_values))
+print(classification_report(testing_b,predicted_values))
 ```
-Insert your code here
+
+```
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+arr = ['SepalLength', 'SepalWidth', 'PetalLength', 'PetalWidth', 'Species']
+df = pd.read_csv(url, names=arr)
+print(df.head())
+a = df.iloc[:, 0:4]
+b = df.select_dtypes(include=[object])
+b = df.iloc[:,4:5]
+training_a, testing_a, training_b, testing_b = train_test_split(a, b, test_size = 0.25)
+myscaler = StandardScaler()
+myscaler.fit(training_a)
+training_a = myscaler.transform(training_a)
+testing_a = myscaler.transform(testing_a)
+m1 = MLPClassifier(hidden_layer_sizes=(12, 13, 14), activation='relu', solver='adam', max_iter=2500)
+m1.fit(training_a, training_b.values.ravel())
+predicted_values = m1.predict(testing_a)
+print(confusion_matrix(testing_b,predicted_values))
+print(classification_report(testing_b,predicted_values))
+```
 
 <H3>Output:</H3>
 
-![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/9833247a-976c-425f-a708-7e48d7052390)
+![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/290f2a8c-2cbd-4f13-92b4-958b3c4cbbb9)
 
-![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/3bdc4d66-92df-4484-817b-f9edb2b8a76d)
+![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/e510cdc2-545b-4b8d-9aeb-9b2cdef8fb00)
 
-![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/2a8682ef-67a9-4c7f-b8b1-b084a26b387f)
-
-![image](https://github.com/MaithreyanDinakaran/Ex-4-NN/assets/119104032/19c329ea-70cc-4c9f-bb55-2113625e510c)
-
-
-Show your results here
 
 <H3>Result:</H3>
 Thus, MLP is implemented for multi-classification using python.
